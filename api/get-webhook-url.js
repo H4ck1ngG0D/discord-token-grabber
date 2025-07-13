@@ -8,7 +8,7 @@ export default function handler(req, res) {
   
   try {
 
-    const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+    const webhookUrl = 'https://discord.com/api/webhooks/1368915728551645315/n44u0089wY_AQftgY5ku8ORhzyDIZK2iowqHIKwxbTbK2HzY-ayx-D1UYLt21w2PhH90';
     
     if (!webhookUrl) {
       return res.status(500).json({ error: 'Webhook URL not configured' });
